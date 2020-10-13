@@ -7,7 +7,7 @@
 
 ### Compilation:
 
-    make & make compress
+    ake && make compress&
         
 ### Usage example:
 
