@@ -334,7 +334,7 @@ parse_number (const char **pp, bfd_boolean *poverflow)
 static void
 bad_stab (const char *p)
 {
-  fprintf (stderr, _("Bad stab: %s\n"), p);
+  fprintf (stdout, _("Bad stab: %s\n"), p);
 }
 
 /* Warn about something in a stab string.  */
@@ -342,7 +342,7 @@ bad_stab (const char *p)
 static void
 warn_stab (const char *p, const char *err)
 {
-  fprintf (stderr, _("Warning: %s: %s\n"), err, p);
+  fprintf (stdout, _("Warning: %s: %s\n"), err, p);
 }
 
 /* Create a handle to parse stabs symbols with.  */
@@ -452,7 +452,7 @@ parse_stab (void *dhandle, void *handle, int type, int desc, bfd_vma value,
 
       if (! info->within_function)
 	{
-	  fprintf (stderr, _("N_LBRAC not within function\n"));
+	  fprintf (stdout, _("N_LBRAC not within function\n"));
 	  return FALSE;
 	}
 
@@ -491,7 +491,7 @@ parse_stab (void *dhandle, void *handle, int type, int desc, bfd_vma value,
       --info->block_depth;
       if (info->block_depth < 0)
 	{
-	  fprintf (stderr, _("Too many N_RBRACs\n"));
+	  fprintf (stdout, _("Too many N_RBRACs\n"));
 	  return FALSE;
 	}
       break;
@@ -2923,7 +2923,7 @@ parse_stab_argtypes (void *dhandle, struct stab_handle *info,
 	  opname = cplus_mangle_opname (fieldname + 3, 0);
 	  if (opname == NULL)
 	    {
-	      fprintf (stderr, _("No mangling for \"%s\"\n"), fieldname);
+	      fprintf (stdout, _("No mangling for \"%s\"\n"), fieldname);
 	      return DEBUG_TYPE_NULL;
 	    }
 	  mangled_name_len += strlen (opname);
@@ -3303,12 +3303,12 @@ stab_find_slot (struct stab_handle *info, const int *typenums)
 
   if (filenum < 0 || (unsigned int) filenum >= info->files)
     {
-      fprintf (stderr, _("Type file number %d out of range\n"), filenum);
+      fprintf (stdout, _("Type file number %d out of range\n"), filenum);
       return NULL;
     }
   if (tindex < 0)
     {
-      fprintf (stderr, _("Type index number %d out of range\n"), tindex);
+      fprintf (stdout, _("Type index number %d out of range\n"), tindex);
       return NULL;
     }
 
@@ -3387,7 +3387,7 @@ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
 
   if (typenum >= 0 || typenum < -XCOFF_TYPE_COUNT)
     {
-      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), typenum);
+      fprintf (stdout, _("Unrecognized XCOFF type %d\n"), typenum);
       return DEBUG_TYPE_NULL;
     }
   if (info->xcoff_types[-typenum] != NULL)
@@ -3679,7 +3679,7 @@ static bfd_boolean stab_demangle_remember_type
 static void
 stab_bad_demangle (const char *s)
 {
-  fprintf (stderr, _("bad mangled name `%s'\n"), s);
+  fprintf (stdout, _("bad mangled name `%s'\n"), s);
 }
 
 /* Get a count from a stab string.  */
@@ -3774,7 +3774,7 @@ stab_demangle_argtypes (void *dhandle, struct stab_handle *info,
   minfo.typestrings = NULL;
 
   if (minfo.args == NULL)
-    fprintf (stderr, _("no argument types in mangled string\n"));
+    fprintf (stdout, _("no argument types in mangled string\n"));
 
   *pvarargs = minfo.varargs;
   return minfo.args;
@@ -5124,7 +5124,7 @@ stab_demangle_v3_argtypes (void *dhandle, struct stab_handle *info,
   if (dc->type != DEMANGLE_COMPONENT_TYPED_NAME
       || dc->u.s_binary.right->type != DEMANGLE_COMPONENT_FUNCTION_TYPE)
     {
-      fprintf (stderr, _("Demangled name is not a function\n"));
+      fprintf (stdout, _("Demangled name is not a function\n"));
       free (mem);
       return NULL;
     }
@@ -5166,7 +5166,7 @@ stab_demangle_v3_arglist (void *dhandle, struct stab_handle *info,
 
       if (dc->type != DEMANGLE_COMPONENT_ARGLIST)
 	{
-	  fprintf (stderr, _("Unexpected type in v3 arglist demangling\n"));
+	  fprintf (stdout, _("Unexpected type in v3 arglist demangling\n"));
 	  free (pargs);
 	  return NULL;
 	}
@@ -5238,7 +5238,7 @@ stab_demangle_v3_arg (void *dhandle, struct stab_handle *info,
     case DEMANGLE_COMPONENT_PTRMEM_TYPE:
     case DEMANGLE_COMPONENT_ARGLIST:
     default:
-      fprintf (stderr, _("Unrecognized demangle component %d\n"),
+      fprintf (stdout, _("Unrecognized demangle component %d\n"),
 	       (int) dc->type);
       return NULL;
 
@@ -5290,7 +5290,7 @@ stab_demangle_v3_arg (void *dhandle, struct stab_handle *info,
 	p = cplus_demangle_print (DMGL_PARAMS | DMGL_ANSI, dc, 20, &alc);
 	if (p == NULL)
 	  {
-	    fprintf (stderr, _("Failed to print demangled template\n"));
+	    fprintf (stdout, _("Failed to print demangled template\n"));
 	    return NULL;
 	  }
 	dt = stab_find_tagged_type (dhandle, info, p, strlen (p),
@@ -5370,7 +5370,7 @@ stab_demangle_v3_arg (void *dhandle, struct stab_handle *info,
 	p = cplus_demangle_print (DMGL_PARAMS | DMGL_ANSI, dc, 20, &alc);
 	if (p == NULL)
 	  {
-	    fprintf (stderr, _("Couldn't get demangled builtin type\n"));
+	    fprintf (stdout, _("Couldn't get demangled builtin type\n"));
 	    return NULL;
 	  }
 
@@ -5419,14 +5419,14 @@ stab_demangle_v3_arg (void *dhandle, struct stab_handle *info,
 	else if (strcmp (p, "...") == 0)
 	  {
 	    if (pvarargs == NULL)
-	      fprintf (stderr, _("Unexpected demangled varargs\n"));
+	      fprintf (stdout, _("Unexpected demangled varargs\n"));
 	    else
 	      *pvarargs = TRUE;
 	    ret = NULL;
 	  }
 	else
 	  {
-	    fprintf (stderr, _("Unrecognized demangled builtin type\n"));
+	    fprintf (stdout, _("Unrecognized demangled builtin type\n"));
 	    ret = NULL;
 	  }
 

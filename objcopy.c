@@ -506,7 +506,7 @@ static const char *lookup_sym_redefinition (const char *);
 static void
 copy_usage (FILE *stream, int exit_status)
 {
-  fprintf (stream, _("Usage: %s [option(s)] in-file [out-file]\n"), program_name);
+  fprintf (stream, _("Usage: %s [option(s)] in-file [out-file]\n"), "objcopy");
   fprintf (stream, _(" Copies a binary file, possibly transforming it in the process\n"));
   fprintf (stream, _(" The options are:\n"));
   fprintf (stream, _("\
@@ -628,7 +628,7 @@ copy_usage (FILE *stream, int exit_status)
   -h --help                        Display this output\n\
      --info                        List object formats & architectures supported\n\
 "));
-  list_supported_targets (program_name, stream);
+  list_supported_targets ("objcopy", stream);
   if (REPORT_BUGS_TO[0] && exit_status == 0)
     fprintf (stream, _("Report bugs to %s\n"), REPORT_BUGS_TO);
   exit (exit_status);
@@ -637,7 +637,7 @@ copy_usage (FILE *stream, int exit_status)
 static void
 strip_usage (FILE *stream, int exit_status)
 {
-  fprintf (stream, _("Usage: %s <option(s)> in-file(s)\n"), program_name);
+  fprintf (stream, _("Usage: %s <option(s)> in-file(s)\n"), "strip");
   fprintf (stream, _(" Removes symbols and sections from files\n"));
   fprintf (stream, _(" The options are:\n"));
   fprintf (stream, _("\
@@ -678,7 +678,7 @@ strip_usage (FILE *stream, int exit_status)
   -o <file>                        Place stripped output into <file>\n\
 "));
 
-  list_supported_targets (program_name, stream);
+  list_supported_targets ("strip", stream);
   if (REPORT_BUGS_TO[0] && exit_status == 0)
     fprintf (stream, _("Report bugs to %s\n"), REPORT_BUGS_TO);
   exit (exit_status);
@@ -3619,7 +3619,7 @@ strip_main (int argc, char *argv[])
 	case 'h':
 	  strip_usage (stdout, 0);
 	default:
-	  strip_usage (stderr, 1);
+	  strip_usage (stdout, 1);
 	}
     }
 
@@ -3646,7 +3646,7 @@ strip_main (int argc, char *argv[])
   i = optind;
   if (i == argc
       || (output_file != NULL && (i + 1) < argc))
-    strip_usage (stderr, 1);
+    strip_usage (stdout, 1);
 
   for (; i < argc; i++)
     {
@@ -4559,7 +4559,7 @@ copy_main (int argc, char *argv[])
 	  copy_usage (stdout, 0);
 
 	default:
-	  copy_usage (stderr, 1);
+	  copy_usage (stdout, 1);
 	}
     }
 
@@ -4582,7 +4582,7 @@ copy_main (int argc, char *argv[])
     fatal (_("interleave width must be less than or equal to interleave - byte`"));
 
   if (optind == argc || optind + 2 < argc)
-    copy_usage (stderr, 1);
+    copy_usage (stdout, 1);
 
   input_filename = argv[optind];
   if (optind + 1 < argc)

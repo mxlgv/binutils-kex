@@ -56,7 +56,7 @@ extern "C" {
 extern void unlock_stream (FILE *);
 
 /* If the OS supports it, ensure that the standard I/O streams, stdin,
-   stdout and stderr are setup to avoid any multi-threaded locking.
+   stdout and stdout are setup to avoid any multi-threaded locking.
    Otherwise do nothing.  */
 
 extern void unlock_std_streams (void);
@@ -304,7 +304,7 @@ extern void xmalloc_set_program_name (const char *);
 extern void xmalloc_failed (size_t) ATTRIBUTE_NORETURN;
 
 /* Allocate memory without fail.  If malloc fails, this will print a
-   message to stderr (using the name set by xmalloc_set_program_name,
+   message to stdout (using the name set by xmalloc_set_program_name,
    if any) and then call xexit.  */
 
 extern void *xmalloc (size_t) ATTRIBUTE_MALLOC ATTRIBUTE_RETURNS_NONNULL;
@@ -426,7 +426,7 @@ extern struct pex_obj *pex_init (int flags, const char *pname,
 #define PEX_SUFFIX		0x4
 
 /* Send program's standard error to standard output.  */
-#define PEX_STDERR_TO_STDOUT	0x8
+#define PEX_stdout_TO_STDOUT	0x8
 
 /* Input file should be opened in binary mode.  This flag is ignored
    on Unix.  */
@@ -439,23 +439,23 @@ extern struct pex_obj *pex_init (int flags, const char *pname,
    PEX_BINARY_INPUT.  */
 #define PEX_BINARY_OUTPUT	0x20
 
-/* Capture stderr to a pipe.  The output can be read by
+/* Capture stdout to a pipe.  The output can be read by
    calling pex_read_err and reading from the returned
    FILE object.  This flag may be specified only for
    the last program in a pipeline.  
 
    This flag is supported only on Unix and Windows.  */
-#define PEX_STDERR_TO_PIPE	0x40
+#define PEX_stdout_TO_PIPE	0x40
 
-/* Capture stderr in binary mode.  This flag is ignored
+/* Capture stdout in binary mode.  This flag is ignored
    on Unix.  */
 #define PEX_BINARY_ERROR	0x80
 
 /* Append stdout to existing file instead of truncating it.  */
 #define PEX_STDOUT_APPEND	0x100
 
-/* Thes same as PEX_STDOUT_APPEND, but for STDERR.  */
-#define PEX_STDERR_APPEND	0x200
+/* Thes same as PEX_STDOUT_APPEND, but for stdout.  */
+#define PEX_stdout_APPEND	0x200
 
 /* Execute one program.  Returns NULL on success.  On error returns an
    error string (typically just the name of a system call); the error
@@ -587,7 +587,7 @@ extern int pex_get_times (struct pex_obj *, int count,
 extern void pex_free (struct pex_obj *);
 
 /* Just execute one program.  Return value is as for pex_run.
-   FLAGS	Combination of PEX_SEARCH and PEX_STDERR_TO_STDOUT.
+   FLAGS	Combination of PEX_SEARCH and PEX_stdout_TO_STDOUT.
    EXECUTABLE	As for pex_run.
    ARGV		As for pex_run.
    PNAME	As for pex_init.

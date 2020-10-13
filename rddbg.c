@@ -132,7 +132,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
 	  stabs = (bfd_byte *) xmalloc (stabsize);
 	  if (! bfd_get_section_contents (abfd, sec, stabs, 0, stabsize))
 	    {
-	      fprintf (stderr, "%s: %s: %s\n",
+	      fprintf (stdout, "%s: %s: %s\n",
 		       bfd_get_filename (abfd), names[i].secname,
 		       bfd_errmsg (bfd_get_error ()));
 	      return FALSE;
@@ -142,7 +142,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
 	  strings = (bfd_byte *) xmalloc (strsize + 1);
 	  if (! bfd_get_section_contents (abfd, strsec, strings, 0, strsize))
 	    {
-	      fprintf (stderr, "%s: %s: %s\n",
+	      fprintf (stdout, "%s: %s: %s\n",
 		       bfd_get_filename (abfd), names[i].strsecname,
 		       bfd_errmsg (bfd_get_error ()));
 	      return FALSE;
@@ -191,7 +191,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
 
 		  if (stroff + strx >= strsize)
 		    {
-		      fprintf (stderr, _("%s: %s: stab entry %ld is corrupt, strx = 0x%x, type = %d\n"),
+		      fprintf (stdout, _("%s: %s: stab entry %ld is corrupt, strx = 0x%x, type = %d\n"),
 			       bfd_get_filename (abfd), names[i].secname,
 			       (long) (stab - stabs) / 12, strx, type);
 		      continue;
@@ -215,7 +215,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
 		      strx = stroff + bfd_get_32 (abfd, stab);
 		      if (strx >= strsize)
 			{
-			  fprintf (stderr, _("%s: %s: stab entry %ld is corrupt\n"),
+			  fprintf (stdout, _("%s: %s: stab entry %ld is corrupt\n"),
 				   bfd_get_filename (abfd), names[i].secname,
 				   (long) (stab - stabs) / 12);
 			  break;
@@ -410,8 +410,8 @@ stab_context (void)
 {
   int i;
 
-  fprintf (stderr, _("Last stabs entries before error:\n"));
-  fprintf (stderr, "n_type n_desc n_value  string\n");
+  fprintf (stdout, _("Last stabs entries before error:\n"));
+  fprintf (stdout, "n_type n_desc n_value  string\n");
 
   i = saved_stabs_index;
   do
@@ -425,16 +425,16 @@ stab_context (void)
 
 	  s = bfd_get_stab_name (stabp->type);
 	  if (s != NULL)
-	    fprintf (stderr, "%-6s", s);
+	    fprintf (stdout, "%-6s", s);
 	  else if (stabp->type == 0)
-	    fprintf (stderr, "HdrSym");
+	    fprintf (stdout, "HdrSym");
 	  else
-	    fprintf (stderr, "%-6d", stabp->type);
-	  fprintf (stderr, " %-6d ", stabp->desc);
-	  fprintf_vma (stderr, stabp->value);
+	    fprintf (stdout, "%-6d", stabp->type);
+	  fprintf (stdout, " %-6d ", stabp->desc);
+	  fprintf_vma (stdout, stabp->value);
 	  if (stabp->type != 0)
-	    fprintf (stderr, " %s", stabp->string);
-	  fprintf (stderr, "\n");
+	    fprintf (stdout, " %s", stabp->string);
+	  fprintf (stdout, "\n");
 	}
       i = (i + 1) % SAVE_STABS_COUNT;
     }

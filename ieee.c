@@ -295,10 +295,10 @@ static void
 ieee_error (struct ieee_info *info, const bfd_byte *p, const char *s)
 {
   if (p != NULL)
-    fprintf (stderr, "%s: 0x%lx: %s (0x%x)\n", bfd_get_filename (info->abfd),
+    fprintf (stdout, "%s: 0x%lx: %s (0x%x)\n", bfd_get_filename (info->abfd),
 	     (unsigned long) (p - info->bytes), s, *p);
   else
-    fprintf (stderr, "%s: %s\n", bfd_get_filename (info->abfd), s);
+    fprintf (stdout, "%s: %s\n", bfd_get_filename (info->abfd), s);
 }
 
 /* Report an unexpected EOF in the IEEE debugging information.  */
@@ -4167,9 +4167,9 @@ ieee_write_number (struct ieee_handle *info, bfd_vma v)
   if (c > (unsigned int) (ieee_number_repeat_end_enum
 			  - ieee_number_repeat_start_enum))
     {
-      fprintf (stderr, _("IEEE numeric overflow: 0x"));
-      fprintf_vma (stderr, v);
-      fprintf (stderr, "\n");
+      fprintf (stdout, _("IEEE numeric overflow: 0x"));
+      fprintf_vma (stdout, v);
+      fprintf (stdout, "\n");
       return FALSE;
     }
 
@@ -4211,7 +4211,7 @@ ieee_write_id (struct ieee_handle *info, const char *s)
     }
   else
     {
-      fprintf (stderr, _("IEEE string length overflow: %u\n"), len);
+      fprintf (stdout, _("IEEE string length overflow: %u\n"), len);
       return FALSE;
     }
 
@@ -4720,7 +4720,7 @@ write_ieee_debugging_info (bfd *abfd, void *dhandle)
 
   if (err != NULL)
     {
-      fprintf (stderr, "%s: %s: %s\n", bfd_get_filename (abfd), err,
+      fprintf (stdout, "%s: %s: %s\n", bfd_get_filename (abfd), err,
 	       bfd_errmsg (bfd_get_error ()));
       return FALSE;
     }
@@ -5209,7 +5209,7 @@ ieee_int_type (void *p, unsigned int size, bfd_boolean unsignedp)
       indx = (int) builtin_signed_long_long;
       break;
     default:
-      fprintf (stderr, _("IEEE unsupported integer type size %u\n"), size);
+      fprintf (stdout, _("IEEE unsupported integer type size %u\n"), size);
       return FALSE;
     }
 
@@ -5243,7 +5243,7 @@ ieee_float_type (void *p, unsigned int size)
       indx = (int) builtin_long_long_double;
       break;
     default:
-      fprintf (stderr, _("IEEE unsupported float type size %u\n"), size);
+      fprintf (stdout, _("IEEE unsupported float type size %u\n"), size);
       return FALSE;
     }
 
@@ -5277,7 +5277,7 @@ ieee_complex_type (void *p, unsigned int size)
       code = 'd';
       break;
     default:
-      fprintf (stderr, _("IEEE unsupported complex type size %u\n"), size);
+      fprintf (stdout, _("IEEE unsupported complex type size %u\n"), size);
       return FALSE;
     }
 

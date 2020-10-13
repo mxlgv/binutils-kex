@@ -161,7 +161,7 @@ ar_open (char *name, int t)
   if (!obfd)
     {
       printf("%s: Can't open output archive %s\n",program_name,  tname);
-      maybequit ();
+      maybequit();
     }
   else
     {

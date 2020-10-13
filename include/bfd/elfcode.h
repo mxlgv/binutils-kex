@@ -1552,27 +1552,27 @@ elf_slurp_reloc_table (bfd *abfd,
 static void
 elf_debug_section (int num, Elf_Internal_Shdr *hdr)
 {
-  fprintf (stderr, "\nSection#%d '%s' 0x%.8lx\n", num,
+  fprintf (stdout, "\nSection#%d '%s' 0x%.8lx\n", num,
 	   hdr->bfd_section != NULL ? hdr->bfd_section->name : "",
 	   (long) hdr);
-  fprintf (stderr,
+  fprintf (stdout,
 	   "sh_name      = %ld\tsh_type      = %ld\tsh_flags     = %ld\n",
 	   (long) hdr->sh_name,
 	   (long) hdr->sh_type,
 	   (long) hdr->sh_flags);
-  fprintf (stderr,
+  fprintf (stdout,
 	   "sh_addr      = %ld\tsh_offset    = %ld\tsh_size      = %ld\n",
 	   (long) hdr->sh_addr,
 	   (long) hdr->sh_offset,
 	   (long) hdr->sh_size);
-  fprintf (stderr,
+  fprintf (stdout,
 	   "sh_link      = %ld\tsh_info      = %ld\tsh_addralign = %ld\n",
 	   (long) hdr->sh_link,
 	   (long) hdr->sh_info,
 	   (long) hdr->sh_addralign);
-  fprintf (stderr, "sh_entsize   = %ld\n",
+  fprintf (stdout, "sh_entsize   = %ld\n",
 	   (long) hdr->sh_entsize);
-  fflush (stderr);
+  fflush (stdout);
 }
 #endif
 
@@ -1580,13 +1580,13 @@ elf_debug_section (int num, Elf_Internal_Shdr *hdr)
 static void
 elf_debug_file (Elf_Internal_Ehdr *ehdrp)
 {
-  fprintf (stderr, "e_entry      = 0x%.8lx\n", (long) ehdrp->e_entry);
-  fprintf (stderr, "e_phoff      = %ld\n", (long) ehdrp->e_phoff);
-  fprintf (stderr, "e_phnum      = %ld\n", (long) ehdrp->e_phnum);
-  fprintf (stderr, "e_phentsize  = %ld\n", (long) ehdrp->e_phentsize);
-  fprintf (stderr, "e_shoff      = %ld\n", (long) ehdrp->e_shoff);
-  fprintf (stderr, "e_shnum      = %ld\n", (long) ehdrp->e_shnum);
-  fprintf (stderr, "e_shentsize  = %ld\n", (long) ehdrp->e_shentsize);
+  fprintf (stdout, "e_entry      = 0x%.8lx\n", (long) ehdrp->e_entry);
+  fprintf (stdout, "e_phoff      = %ld\n", (long) ehdrp->e_phoff);
+  fprintf (stdout, "e_phnum      = %ld\n", (long) ehdrp->e_phnum);
+  fprintf (stdout, "e_phentsize  = %ld\n", (long) ehdrp->e_phentsize);
+  fprintf (stdout, "e_shoff      = %ld\n", (long) ehdrp->e_shoff);
+  fprintf (stdout, "e_shnum      = %ld\n", (long) ehdrp->e_shnum);
+  fprintf (stdout, "e_shentsize  = %ld\n", (long) ehdrp->e_shentsize);
 }
 #endif
 

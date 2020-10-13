@@ -594,7 +594,7 @@ static bfd_boolean debug_class_type_samep
 static void
 debug_error (const char *message)
 {
-  fprintf (stderr, "%s\n", message);
+  fprintf (stdout, "%s\n", message);
 }
 
 /* Add an object to a namespace.  */
@@ -1926,7 +1926,7 @@ debug_record_type_size (void *handle ATTRIBUTE_UNUSED, debug_type type,
 			unsigned int size)
 {
   if (type->size != 0 && type->size != size)
-    fprintf (stderr, _("Warning: changing type size from %d to %d\n"),
+    fprintf (stdout, _("Warning: changing type size from %d to %d\n"),
 	     type->size, size);
 
   type->size = size;
@@ -2050,7 +2050,7 @@ debug_get_real_type (void *handle, debug_type type,
     {
       if (l->t == type || l == l->next)
 	{
-	  fprintf (stderr,
+	  fprintf (stdout,
 		   _("debug_get_real_type: circular debug information for %s\n"),
 		   debug_get_type_name (handle, type));
 	  return NULL;

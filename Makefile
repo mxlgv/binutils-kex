@@ -69,3 +69,9 @@ strip: $(OSTRIP) Makefile
 
 clean:
 	rm -f *.o
+	rm -f ar objcopy strip
+
+compress:
+	kpack ar 
+	kpack strip 
+	kpack objcopy

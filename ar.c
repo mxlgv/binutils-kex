@@ -254,7 +254,7 @@ map_over_members (bfd *arch, void (*function)(bfd *), char **files, int count)
 
       if (!found)
 	/* xgettext:c-format */
-	  printf ("no entry %s in archive\n", *files);
+	fprintf (stdout, _("no entry %s in archive\n"), *files);
     }
 }
 
@@ -277,62 +277,63 @@ usage (int help)
     = _("Usage: ar [emulation options] [-]{dmpqrstx}[abcDfilMNoPsSTuvV]"
 	" [member-name] [count] archive-file file...\n");
 #endif
-  s = help ? stdout : stderr;
+  s = stdout;
 
-  printf(command_line);
+  fprintf(s, command_line);
+
   /* xgettext:c-format */
-  printf("ar -M [<mri-script]\n");
-  printf("commands:\n");
-  printf("  d            - delete file(s) from the archive\n");
-  printf("  m[ab]        - move file(s) in the archive\n");
-  printf("  p            - print file(s) found in the archive\n");
-  printf("  q[f]         - quick append file(s) to the archive\n");
-  printf("  r[ab][f][u]  - replace existing or insert new file(s) into the archive\n");
-  printf("  s            - act as ranlib\n");
-  printf("  t            - display contents of archive\n");
-  printf("  x[o]         - extract file(s) from the archive\n");
-  printf(" command specific modifiers:\n");
-  printf("  [a]          - put file(s) after [member-name]\n");
-  printf("  [b]          - put file(s) before [member-name] (same as [i])\n");
+  fprintf (s, _("       ar -M [<mri-script]\n"));
+  fprintf (s, _(" commands:\n"));
+  fprintf (s, _("  d            - delete file(s) from the archive\n"));
+  fprintf (s, _("  m[ab]        - move file(s) in the archive\n"));
+  fprintf (s, _("  p            - print file(s) found in the archive\n"));
+  fprintf (s, _("  q[f]         - quick append file(s) to the archive\n"));
+  fprintf (s, _("  r[ab][f][u]  - replace existing or insert new file(s) into the archive\n"));
+  fprintf (s, _("  s            - act as ranlib\n"));
+  fprintf (s, _("  t            - display contents of archive\n"));
+  fprintf (s, _("  x[o]         - extract file(s) from the archive\n"));
+  fprintf (s, _(" command specific modifiers:\n"));
+  fprintf (s, _("  [a]          - put file(s) after [member-name]\n"));
+  fprintf (s, _("  [b]          - put file(s) before [member-name] (same as [i])\n"));
   if (DEFAULT_AR_DETERMINISTIC)
     {
-      printf("\
-  [D]          - use zero for timestamps and uids/gids (default)\n");
-      printf("\
-  [U]          - use actual timestamps and uids/gids\n");
+      fprintf (s, _("\
+  [D]          - use zero for timestamps and uids/gids (default)\n"));
+      fprintf (s, _("\
+  [U]          - use actual timestamps and uids/gids\n"));
     }
   else
     {
-      printf("\
-  [D]          - use zero for timestamps and uids/gids\n");
-      printf("\
-  [U]          - use actual timestamps and uids/gids (default)\n");
+      fprintf (s, _("\
+  [D]          - use zero for timestamps and uids/gids\n"));
+      fprintf (s, _("\
+  [U]          - use actual timestamps and uids/gids (default)\n"));
     }
-  printf("  [N]          - use instance [count] of name\n");
-  printf("  [f]          - truncate inserted file names\n");
-  printf("  [P]          - use full path names when matching\n");
-  printf("  [o]          - preserve original dates\n");
-  printf("  [u]          - only replace files that are newer than current archive contents\n");
-  printf(" generic modifiers:\n");
-  printf("  [c]          - do not warn if the library had to be created\n");
-  printf("  [s]          - create an archive index (cf. ranlib)\n");
-  printf("  [S]          - do not build a symbol table\n");
-  printf("  [T]          - make a thin archive\n");
-  printf("  [v]          - be verbose\n");
-  printf("  [V]          - display the version number\n");
-  printf("  @<file>      - read options from <file>\n");
-  printf("  --target=BFDNAME - specify the target object format as BFDNAME\n");
+  fprintf (s, _("  [N]          - use instance [count] of name\n"));
+  fprintf (s, _("  [f]          - truncate inserted file names\n"));
+  fprintf (s, _("  [P]          - use full path names when matching\n"));
+  fprintf (s, _("  [o]          - preserve original dates\n"));
+  fprintf (s, _("  [u]          - only replace files that are newer than current archive contents\n"));
+  fprintf (s, _(" generic modifiers:\n"));
+  fprintf (s, _("  [c]          - do not warn if the library had to be created\n"));
+  fprintf (s, _("  [s]          - create an archive index (cf. ranlib)\n"));
+  fprintf (s, _("  [S]          - do not build a symbol table\n"));
+  fprintf (s, _("  [T]          - make a thin archive\n"));
+  fprintf (s, _("  [v]          - be verbose\n"));
+  fprintf (s, _("  [V]          - display the version number\n"));
+  fprintf (s, _("  @<file>      - read options from <file>\n"));
+  fprintf (s, _("  --target=BFDNAME - specify the target object format as BFDNAME\n"));
 #if BFD_SUPPORTS_PLUGINS
-  printf(" optional:\n");
-  printf(" --plugin <p> - load the specified plugin\n");
+  fprintf (s, _(" optional:\n"));
+  fprintf (s, _("  --plugin <p> - load the specified plugin\n"));
 #endif
 
-  ar_emul_usage(s);
+  ar_emul_usage (s);
 
-  list_supported_targets (program_name, s);
+  list_supported_targets ("ar", s);
 
   if (REPORT_BUGS_TO[0] && help)
-    printf("Report bugs to %s\n", REPORT_BUGS_TO);
+    fprintf (s, _("Report bugs to %s\n"), REPORT_BUGS_TO);
 
   xexit (help ? 0 : 1);
 }
@@ -341,37 +342,35 @@ static void
 ranlib_usage (int help)
 {
   FILE *s;
-
-  s = help ? stdout : stderr;
-
+  s = stdout;
   /* xgettext:c-format */
-  printf("Usage: ar [options] archive\n");
-  printf(" Generate an index to speed access to archives\n");
-  printf(" The options are:\n\
-  @<file>                      Read options from <file>\n");
+  fprintf (s, _("Usage: %s [options] archive\n"), program_name);
+  fprintf (s, _(" Generate an index to speed access to archives\n"));
+  fprintf (s, _(" The options are:\n\
+  @<file>                      Read options from <file>\n"));
 #if BFD_SUPPORTS_PLUGINS
-  printf("\
-  --plugin <name>              Load the specified plugin\n");
+  fprintf (s, _("\
+  --plugin <name>              Load the specified plugin\n"));
 #endif
   if (DEFAULT_AR_DETERMINISTIC)
-    printf("\
+    fprintf (s, _("\
   -D                           Use zero for symbol map timestamp (default)\n\
-  -U                           Use an actual symbol map timestamp\n");
+  -U                           Use an actual symbol map timestamp\n"));
   else
-    printf("\
+    fprintf (s, _("\
   -D                           Use zero for symbol map timestamp\n\
-  -U                           Use actual symbol map timestamp (default)\n");
-  printf("\
+  -U                           Use actual symbol map timestamp (default)\n"));
+  fprintf (s, _("\
   -t                           Update the archive's symbol map timestamp\n\
   -h --help                    Print this help message\n\
-  -v --version                 Print version information\n");
+  -v --version                 Print version information\n"));
 
-  list_supported_targets (program_name, s);
+  list_supported_targets ("ar", s);
 
   if (REPORT_BUGS_TO[0] && help)
-    printf("Report bugs to %s\n", REPORT_BUGS_TO);
+    fprintf (s, _("Report bugs to %s\n"), REPORT_BUGS_TO);
 
-  exit (help ? 0 : 1);
+  xexit (help ? 0 : 1);
 }
 
 /* Normalize a file name specified on the command line into a file
@@ -574,10 +573,10 @@ decode_options (int argc, char **argv)
           break;
 	case OPTION_PLUGIN:
 #if BFD_SUPPORTS_PLUGINS
-	  bfd_plugin_set_plugin(optarg);
+	  bfd_plugin_set_plugin (optarg);
 #else
-	  printf("sorry - this program has been built without plugin support\n");
-	  exit (1);
+	  fprintf (stdout, _("sorry - this program has been built without plugin support\n"));
+	  xexit (1);
 #endif
 	  break;
 	case OPTION_TARGET:
@@ -636,8 +635,8 @@ ranlib_main (int argc, char **argv)
 #if BFD_SUPPORTS_PLUGINS
 	  bfd_plugin_set_plugin (optarg);
 #else
-	  printf("sorry - this program has been built without plugin support\n");
-	  exit (1);
+	  fprintf (stdout, _("sorry - this program has been built without plugin support\n"));
+	  xexit (1);
 #endif
 	  break;
 	}
@@ -673,7 +672,7 @@ int main (int, char **);
 int
 main (int argc, char **argv)
 {
-    int arg_index;
+  int arg_index;
   char **files;
   int file_count;
   char *inarch_filename;
@@ -885,7 +884,7 @@ open_inarch (const char *archive_filename, const char *file)
 
       if (!operation_alters_arch)
 	{
-	  printf("%s: ", program_name);
+	  fprintf (stdout, "%s: ", program_name);
       perror (archive_filename);
 	  maybequit ();
 	  return NULL;
@@ -1280,7 +1279,7 @@ delete_members (bfd *arch, char **files_to_delete)
       if (verbose && !found)
 	{
 	  /* xgettext:c-format */
-	  printf("No member named `%s'\n", *files_to_delete);
+	  printf (_("No member named `%s'\n"), *files_to_delete);
 	}
     next_file:
       ;
@@ -1322,7 +1321,7 @@ move_members (bfd *arch, char **files_to_move)
 	      current_ptr->archive_next = link_bfd;
 
 	      if (verbose)
-		printf("m - %s\n", *files_to_move);
+		printf ("m - %s\n", *files_to_move);
 
 	      goto next_file;
 	    }

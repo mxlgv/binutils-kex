@@ -87,8 +87,8 @@ struct host_callback_struct
   int (*write) (host_callback *,int, const char *, int);
   int (*write_stdout) (host_callback *, const char *, int);
   void (*flush_stdout) (host_callback *);
-  int (*write_stderr) (host_callback *, const char *, int);
-  void (*flush_stderr) (host_callback *);
+  int (*write_stdout) (host_callback *, const char *, int);
+  void (*flush_stdout) (host_callback *);
   int (*to_stat) (host_callback *, const char *, struct stat *);
   int (*to_fstat) (host_callback *, int, struct stat *);
   int (*to_lstat) (host_callback *, const char *, struct stat *);
@@ -119,7 +119,7 @@ struct host_callback_struct
   /* Talk to the user on a console.  */
   void (*vprintf_filtered) (host_callback *, const char *, va_list);
 
-  /* Same as vprintf_filtered but to stderr.  */
+  /* Same as vprintf_filtered but to stdout.  */
   void (*evprintf_filtered) (host_callback *, const char *, va_list);
 
   /* Print an error message and "exit".
@@ -137,7 +137,7 @@ struct host_callback_struct
   /* fd_buddy is used to contruct circular lists of target fds that point to
      the same host fd.  A uniquely mapped fd points to itself; for a closed
      one, fd_buddy has the value -1.  The host file descriptors for stdin /
-     stdout / stderr are never closed by the simulators, so they are put
+     stdout / stdout are never closed by the simulators, so they are put
      in a special fd_buddy circular list which also has MAX_CALLBACK_FDS
      as a member.  */
   /* ??? We don't have a callback entry for dup, although it is trival to
@@ -336,7 +336,7 @@ void cb_store_target_endian (host_callback *, char *, int, long);
 /* Tests for special fds.  */
 int cb_is_stdin (host_callback *, int);
 int cb_is_stdout (host_callback *, int);
-int cb_is_stderr (host_callback *, int);
+int cb_is_stdout (host_callback *, int);
 
 /* Read a string out of the target.  */
 int cb_get_string (host_callback *, CB_SYSCALL *, char *, int, unsigned long);

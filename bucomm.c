@@ -54,9 +54,9 @@ bfd_nonfatal (const char *string)
   errmsg = bfd_errmsg (bfd_get_error ());
   fflush (stdout);
   if (string)
-    fprintf (stderr, "%s: %s: %s\n", program_name, string, errmsg);
+    fprintf (stdout, "%s: %s: %s\n", program_name, string, errmsg);
   else
-    fprintf (stderr, "%s: %s\n", program_name, errmsg);
+    fprintf (stdout, "%s: %s\n", program_name, errmsg);
 }
 
 /* Issue a non fatal error message.  FILENAME, or if NULL then BFD,
@@ -85,7 +85,7 @@ bfd_nonfatal_message (const char *filename,
   fflush (stdout);
   section_name = NULL;
   va_start (args, format);
-  fprintf (stderr, "%s", program_name);
+  fprintf (stdout, "%s", program_name);
 
   if (abfd)
     {
@@ -95,16 +95,16 @@ bfd_nonfatal_message (const char *filename,
 	section_name = bfd_get_section_name (abfd, section);
     }
   if (section_name)
-    fprintf (stderr, ":%s[%s]", filename, section_name);
+    fprintf (stdout, ":%s[%s]", filename, section_name);
   else
-    fprintf (stderr, ":%s", filename);
+    fprintf (stdout, ":%s", filename);
 
   if (format)
     {
-      fprintf (stderr, ": ");
-      vfprintf (stderr, format, args);
+      fprintf (stdout, ": ");
+      vfprintf (stdout, format, args);
     }
-  fprintf (stderr, ": %s\n", errmsg);
+  fprintf (stdout, ": %s\n", errmsg);
   va_end (args);
 }
 
@@ -119,9 +119,9 @@ void
 report (const char * format, va_list args)
 {
   fflush (stdout);
-  fprintf (stderr, "%s: ", program_name);
-  vfprintf (stderr, format, args);
-  putc ('\n', stderr);
+  fprintf (stdout, "%s: ", program_name);
+  vfprintf (stdout, format, args);
+  putc ('\n', stdout);
 }
 
 void
@@ -171,10 +171,10 @@ void
 list_matching_formats (char **p)
 {
   fflush (stdout);
-  fprintf (stderr, _("%s: Matching formats:"), program_name);
+  fprintf (stdout, _("%s: Matching formats:"), program_name);
   while (*p)
-    fprintf (stderr, " %s", *p++);
-  fputc ('\n', stderr);
+    fprintf (stdout, " %s", *p++);
+  fputc ('\n', stdout);
 }
 
 /* List the supported targets.  */
